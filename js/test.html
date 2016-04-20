@@ -1,0 +1,9 @@
+<script src="http://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/hmac-sha256.js"></script>
+<script src="http://crypto-js.googlecode.com/svn/tags/3.0.2/build/components/enc-base64-min.js"></script>
+
+<script>
+  var hash = CryptoJS.HmacSHA256("Message", "secret");
+  var hashInHex = CryptoJS.enc.Hex.stringify(hash);
+  document.write(hashInHex); // aa747c502a898200f9e4fa21bac68136f886a0e27aec70ba06daf2e2a5cb5597
+</script>
+

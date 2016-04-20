@@ -1,0 +1,72 @@
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style type="text/css">
+* {
+  font-family: monospace;
+}
+
+label,input,textarea{
+  font-size: 20pt;
+}
+label{
+  font-weight: bold;
+}
+#wrapper {
+  width: 90%;
+  margin: 0 auto;
+}
+input, label, textarea{
+  text-align: center;
+  width: 100%;
+  display: block;
+  margin-bottom: 1em;
+}
+.warning{
+  color: red;
+}
+</style>
+</head>
+<body>
+<div id="wrapper">
+<h1>Intercom user_hash</h1>
+<h2 class='warning' style=>This code should not be used in any production environment as exposing a secret key is a security risk and leaves you open to impersonation</h2>
+<div><label>Secret Key: <input id="secret" class='monitor'></label></div>
+<div><label>user_id: <input id="user_id" class='monitor'></label></div>
+<div><label>email: <input id="email" class='monitor'></label></div>
+<div><label>user_hash: <textarea id="user_hash" readonly="true"></textarea></label></div>
+<h4>Calculation: HMAC_256(SECRET_KEY, user_id || email)</h4>
+Relevant Links:
+<ol>
+<li><a href="https://docs.intercom.io/configuring-for-your-product-or-site/enable-secure-mode">Secure Mode</a></li>
+</ol>
+</div>
+
+<script src="jssha256.js"></script>
+<script src="jquery.min.js"></script>
+
+<script>
+var secret = $("#secret"), user_id = $("#user_id"), email = $("#email"), user_hash = $("#user_hash");
+$('.monitor').on('keyup change', function(){
+  console.log(email.val());
+  console.log(user_id.val());
+  console.log(secret.val());
+  console.log(HMAC_SHA256_MAC(secret.val(), user_id.val() || email.val()));
+    user_hash.val(HMAC_SHA256_MAC(secret.val(), user_id.val() || email.val()))
+});
+user_hash.focus(function() {
+    var $this = $(this);
+    $this.select();
+
+    // Work around Chrome's little problem
+    $this.mouseup(function() {
+        // Prevent further mouseup intervention
+        $this.unbind("mouseup");
+        return false;
+    });
+});
+
+</script>
+</body>
+</html>
